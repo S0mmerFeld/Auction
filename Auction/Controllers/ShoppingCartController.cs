@@ -1,5 +1,6 @@
 ﻿using Auction.BLL.DTO;
 using Auction.BLL.Repositories.Contracts;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,12 +15,15 @@ namespace Auction.Controllers
     {
         private readonly IShoppingCartRepository shoppingCartRepository;
         private readonly IProductRepository productRepository;
+        private readonly IMapper _mapper;
 
         public ShoppingCartController(IShoppingCartRepository shoppingCartRepository,
-                                      IProductRepository productRepository)
+                                      IProductRepository productRepository,
+                                      IMapper mapper)
         {
             this.shoppingCartRepository = shoppingCartRepository;
             this.productRepository = productRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -34,7 +38,7 @@ namespace Auction.Controllers
                 {
                     return NoContent();
                 }
-                
+
                 var products = await this.productRepository.GetItems();
 
                 if (products == null)
@@ -50,7 +54,7 @@ namespace Auction.Controllers
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-               
+
             }
         }
        
@@ -71,7 +75,7 @@ namespace Auction.Controllers
                     return NotFound();
                 }
                 var cartItemDto = cartItem.ConvertToDto(product);
-               
+
                 return Ok(cartItemDto);
             }
             catch (Exception ex)

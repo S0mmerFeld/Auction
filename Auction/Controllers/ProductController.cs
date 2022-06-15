@@ -3,6 +3,7 @@ using Auction.BLL.DTO;
 using Auction.BLL.Repositories.Contracts;
 using Auction.Models;
 using Auction.Models.Entities;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -17,10 +18,11 @@ namespace Auction.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductRepository productRepository;
-
-        public ProductController(IProductRepository productRepository)
+        private readonly IMapper _mapper;
+        public ProductController(IProductRepository productRepository, IMapper mapper)
         {
             this.productRepository = productRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -36,10 +38,9 @@ namespace Auction.Controllers
                     return NotFound();
                 }
                 else
-                {
-                    var productDtos = products.ConvertToDto();
+                {                   
 
-                    return Ok(productDtos);
+                    return Ok(_mapper.Map<IEnumerable<ProductDto>>(products));
                 }
 
             }
@@ -64,9 +65,7 @@ namespace Auction.Controllers
                 else
                 {
 
-                    var productDto = product.ConvertToDto();
-
-                    return Ok(productDto);
+                    return Ok(_mapper.Map<ProductDto>(product));
                 }
 
             }
@@ -86,9 +85,7 @@ namespace Auction.Controllers
             {
                 var productCategories = await productRepository.GetCategories();
 
-                var productCategoryDtos = productCategories.ConvertToDto();
-
-                return Ok(productCategoryDtos);
+                return Ok(_mapper.Map<IEnumerable<ProductCategoryDto>>(productCategories));
 
             }
             catch (Exception)
@@ -107,9 +104,7 @@ namespace Auction.Controllers
             {
                 var products = await productRepository.GetItemsByCategory(categoryId);
 
-                var productDtos = products.ConvertToDto();
-
-                return Ok(productDtos);
+                return Ok(_mapper.Map<IEnumerable<ProductDto>>(products));
 
             }
             catch (Exception)

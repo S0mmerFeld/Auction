@@ -51,10 +51,15 @@ namespace Auction
               options => options.UseSqlServer(Configuration.GetConnectionString("AuctionDB")));
 
 
-            //services.AddAutoMapper(typeof(ProductProfile));
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new ProductProfile());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
 
 
-            
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
 
