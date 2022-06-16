@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuctionUI", "AuctionUI\Auct
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auction.Models", "Auction.Models\Auction.Models.csproj", "{14543FC2-F591-4B0C-85D5-A75D3DC5C28B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auction.Tests", "Auction.Tests\Auction.Tests.csproj", "{A614C8BC-2925-4736-8ECF-CCBB9C44D7A6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{14543FC2-F591-4B0C-85D5-A75D3DC5C28B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14543FC2-F591-4B0C-85D5-A75D3DC5C28B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14543FC2-F591-4B0C-85D5-A75D3DC5C28B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A614C8BC-2925-4736-8ECF-CCBB9C44D7A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A614C8BC-2925-4736-8ECF-CCBB9C44D7A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A614C8BC-2925-4736-8ECF-CCBB9C44D7A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A614C8BC-2925-4736-8ECF-CCBB9C44D7A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

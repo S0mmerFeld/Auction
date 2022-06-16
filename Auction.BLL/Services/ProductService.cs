@@ -1,4 +1,5 @@
-﻿using Auction.DAL;
+﻿using Auction.BLL.Repositories.Contracts;
+using Auction.DAL;
 using Auction.Models;
 using Auction.Models.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -11,84 +12,44 @@ namespace Auction.BLL
 {
     public class ProductService : IProductService
     {
-        private readonly AuctionDbContext _context;
-        public ProductService(AuctionDbContext context)
+        private readonly IProductRepository _productRepository;
+        public ProductService(IProductRepository productRepository)
         {
-            _context = context;
+            _productRepository = productRepository;
         }
 
-        public async Task<Product> AddAsync(Product model)
+        public async Task<IEnumerable<ProductCategory>> GetCategories()
         {
-            var rec = new Product()
-            {
-                Id = model.Id,
-                Description = model.Description,
-                Name = model.Name,
-                //StepPrice = model.StepPrice,
-                //StartPrice = model.StartPrice,
-                //StartTime = model.StartTime,
-                //FinishTime = model.FinishTime
-            };
+            var categories = await _productRepository.GetCategories();
 
-            _context.Products.Add(rec);
-
-
-            await _context.SaveChangesAsync();
-            return rec;
-        }
-
-        public async Task DeleteAsync(int recid)
-        {
-            var rec = await GetByIdAsync(recid);
-            //if (rec == null)
-                //throw new ItemNotFoundException($"{typeof(AutomatMachine).Name} with id {discountCardId} not found");
-
-            _context.Products.Remove(rec);
-
-            await _context.SaveChangesAsync();
+            return categories;
 
         }
 
-        public async Task<List<Product>> GetAllAsync()
+        public async Task<ProductCategory> GetCategory(int id)
         {
-            var rec = await _context.Products.Select(x => new Product()
-            {
-                Id = x.Id,
-                Description = x.Description,
-                Name = x.Name,
-                /*StepPrice = x.StepPrice,
-                StartPrice = x.StartPrice,
-                StartTime = x.StartTime,
-                FinishTime = x.FinishTime*/
-            }).ToListAsync();
+            var category = await _productRepository.GetCategory(id);
+            return category;
+        }
 
-            return rec;
+        public async Task<Product> GetItem(int id)
+        {
+            var product = await _productRepository.GetItem(id);
+            return product;
+        }
+
+        public async Task<IEnumerable<Product>> GetItems()
+        {
+            var products = await _productRepository.GetItems();
+
+            return products;
 
         }
 
-        public async Task<Product> GetByIdAsync(int id)
+        public async Task<IEnumerable<Product>> GetItemsByCategory(int id)
         {
-            var prod = await _context.Products.Where(x => x.Id == id).Select(x => new Product()
-            {
-                Id = x.Id,
-                Description = x.Description,
-                Name = x.Name,
-                //StepPrice = x.StepPrice,
-                //StartPrice = x.StartPrice,
-                //StartTime =x.StartTime,
-                //FinishTime = x.FinishTime
-            }).FirstOrDefaultAsync();
-           
-           // if (prod == null)
-                //throw new ItemNotFoundException($"{typeof(DiscountCard).Name} item with id {discountCardId} not found.");
-                //return prod;
-
-            return prod;
-        }
-
-        public Task UpdateAsync(int id, Product model)
-        {
-            throw new NotImplementedException();
+            var products = await _productRepository.GetItemsByCategory(id);
+            return products;
         }
     }
 }

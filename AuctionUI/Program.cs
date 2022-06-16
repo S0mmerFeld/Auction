@@ -23,10 +23,7 @@ namespace AuctionUI
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
 
-            //builder.Services.AddHttpClient<IAutomatMachineClient, AutomatMachineClient>(client => client.BaseAddress = new Uri("https://localhost:44356/api/"));
-            //builder.Services.AddSingleton<IBlazorAutomatMachineService, BlazorAutomatMachineService>();
-
-
+           
 
 
             builder.Services.AddMsalAuthentication(options =>

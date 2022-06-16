@@ -15,15 +15,12 @@ namespace Auction.Controllers
     {
         private readonly IShoppingCartRepository shoppingCartRepository;
         private readonly IProductRepository productRepository;
-        private readonly IMapper _mapper;
 
         public ShoppingCartController(IShoppingCartRepository shoppingCartRepository,
-                                      IProductRepository productRepository,
-                                      IMapper mapper)
+                                      IProductRepository productRepository)
         {
             this.shoppingCartRepository = shoppingCartRepository;
             this.productRepository = productRepository;
-            _mapper = mapper;
         }
 
         [HttpGet]
@@ -57,7 +54,7 @@ namespace Auction.Controllers
 
             }
         }
-       
+
         [HttpGet("{id:int}")]
         public async Task<ActionResult<CartItemDto>> GetItem(int id)
         {
@@ -83,7 +80,7 @@ namespace Auction.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-       
+
         [HttpPost]
         public async Task<ActionResult<CartItemDto>> PostItem([FromBody] CartItemToAddDto cartItemToAddDto)
         {
@@ -121,9 +118,9 @@ namespace Auction.Controllers
             try
             {
                 var cartItem = await this.shoppingCartRepository.DeleteItem(id);
-                
+
                 if (cartItem == null)
-                { 
+                {
                     return NotFound();
                 }
 

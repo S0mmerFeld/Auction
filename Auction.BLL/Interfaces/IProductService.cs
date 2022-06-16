@@ -8,10 +8,10 @@ namespace Auction.BLL
 {
     public interface IProductService
     {
-        Task<List<Product>> GetAllAsync();
-        Task<Product> GetByIdAsync(int id);
-        Task<Product> AddAsync(Product model);
-        Task UpdateAsync(int id, Product model);
-        Task DeleteAsync(int id);
+        Task<IEnumerable<Product>> GetItems();
+        Task<IEnumerable<ProductCategory>> GetCategories();
+        Task<Product> GetItem(int id);
+        Task<ProductCategory> GetCategory(int id);
+        Task<IEnumerable<Product>> GetItemsByCategory(int id);
     }
 }
