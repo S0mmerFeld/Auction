@@ -1,4 +1,5 @@
 ﻿using Auction.BLL.DTO;
+using Auction.Models.DTO;
 using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
 

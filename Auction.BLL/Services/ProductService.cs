@@ -1,7 +1,9 @@
-﻿using Auction.BLL.Repositories.Contracts;
-using Auction.DAL;
+﻿using Auction.DAL;
+using Auction.DAL.Repositories.Contracts;
 using Auction.Models;
+using Auction.Models.DTO;
 using Auction.Models.Entities;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,43 +15,44 @@ namespace Auction.BLL
     public class ProductService : IProductService
     {
         private readonly IProductRepository _productRepository;
-        public ProductService(IProductRepository productRepository)
+        private readonly IMapper _mapper;
+        public ProductService(IProductRepository productRepository, IMapper mapper)
         {
             _productRepository = productRepository;
+            _mapper = mapper;
         }
 
-        public async Task<IEnumerable<ProductCategory>> GetCategories()
+        public async Task<IEnumerable<ProductCategoryDto>> GetCategories()
         {
-            var categories = await _productRepository.GetCategories();
+            var productCategories = await _productRepository.GetCategories();
 
-            return categories;
+            return _mapper.Map<IEnumerable<ProductCategoryDto>>(productCategories);
 
         }
 
-        public async Task<ProductCategory> GetCategory(int id)
+        public async Task<ProductCategoryDto> GetCategory(int id)
         {
             var category = await _productRepository.GetCategory(id);
-            return category;
+            return _mapper.Map<ProductCategoryDto>(category);
         }
 
-        public async Task<Product> GetItem(int id)
+        public async Task<ProductDto> GetItem(int id)
         {
             var product = await _productRepository.GetItem(id);
-            return product;
+            return _mapper.Map<ProductDto>(product);
         }
 
-        public async Task<IEnumerable<Product>> GetItems()
+        public async Task<IEnumerable<ProductDto>> GetItems()
         {
             var products = await _productRepository.GetItems();
-
-            return products;
+            return _mapper.Map<IEnumerable<ProductDto>>(products);            
 
         }
 
-        public async Task<IEnumerable<Product>> GetItemsByCategory(int id)
+        public async Task<IEnumerable<ProductDto>> GetItemsByCategory(int id)
         {
             var products = await _productRepository.GetItemsByCategory(id);
-            return products;
+            return _mapper.Map<IEnumerable<ProductDto>>(products);
         }
     }
 }

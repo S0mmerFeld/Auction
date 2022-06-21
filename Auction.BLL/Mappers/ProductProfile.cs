@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Auction.Models;
+using Auction.Models.DTO;
 using Auction.Models.Entities;
 using AutoMapper;
 

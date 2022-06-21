@@ -1,5 +1,5 @@
-﻿using Auction.BLL.DTO;
-using Auction.BLL.Repositories.Contracts;
+﻿using Auction.DAL.Repositories.Contracts;
+using Auction.Models.DTO;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

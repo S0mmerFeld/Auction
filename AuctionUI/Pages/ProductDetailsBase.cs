@@ -1,5 +1,6 @@
 ﻿
 using Auction.BLL.DTO;
+using Auction.Models.DTO;
 using AuctionUI.Services.Contracts;
 using Microsoft.AspNetCore.Components;
 using System;

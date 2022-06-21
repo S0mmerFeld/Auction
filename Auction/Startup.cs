@@ -19,8 +19,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Auction.BLL.DTO.Mappers;
 using AutoMapper;
-using Auction.BLL.Repositories.Contracts;
-using ShopOnline.Api.Repositories;
+using Auction.DAL.Repositories.Contracts;
+using Auction.DAL.Repositories;
 
 namespace Auction
 {
@@ -62,6 +62,9 @@ namespace Auction
 
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
+
+            services.AddScoped<IProductService, ProductService>();
+
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

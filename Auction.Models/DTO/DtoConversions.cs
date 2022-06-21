@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Auction.BLL.DTO
+namespace Auction.Models.DTO
 {
     public static class DtoConversions
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Auction.BLL.DTO
+namespace Auction.Models.DTO
 {
     public class CartItemQtyUpdateDto
     {

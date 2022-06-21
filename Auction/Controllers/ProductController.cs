@@ -1,7 +1,8 @@
 ﻿using Auction.BLL;
 using Auction.BLL.DTO;
-using Auction.BLL.Repositories.Contracts;
+using Auction.DAL.Repositories.Contracts;
 using Auction.Models;
+using Auction.Models.DTO;
 using Auction.Models.Entities;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -18,29 +19,27 @@ namespace Auction.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductRepository productRepository;
-        private readonly IMapper _mapper;
-        public ProductController(IProductRepository productRepository, IMapper mapper)
+        private readonly IProductService _productService;
+        public ProductController(IProductService productService)
         {
-            this.productRepository = productRepository;
-            _mapper = mapper;
+            _productService = productService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductDto>>> GetItems()
+        public async Task<IActionResult>  GetItems()
         {
             try
             {
-                var products = await this.productRepository.GetItems();
+                var products = await _productService.GetItems();
 
 
                 if (products == null)
                 {
-                    return NotFound();
+                    return NotFound(products);
                 }
                 else
-                {                   
-
-                    return Ok(_mapper.Map<IEnumerable<ProductDto>>(products));
+                {        
+                    return Ok(products);
                 }
 
             }
@@ -51,12 +50,13 @@ namespace Auction.Controllers
 
             }
         }
+
         [HttpGet("{id:int}")]
         public async Task<ActionResult<ProductDto>> GetItem(int id)
         {
             try
             {
-                var product = await this.productRepository.GetItem(id);
+                var product = await _productService.GetItem(id);
 
                 if (product == null)
                 {
@@ -65,7 +65,7 @@ namespace Auction.Controllers
                 else
                 {
 
-                    return Ok(_mapper.Map<ProductDto>(product));
+                    return Ok(product);
                 }
 
             }
@@ -83,9 +83,9 @@ namespace Auction.Controllers
         {
             try
             {
-                var productCategories = await productRepository.GetCategories();
+                var productCategories = await _productService.GetCategories();
 
-                return Ok(_mapper.Map<IEnumerable<ProductCategoryDto>>(productCategories));
+                return Ok(productCategories);
 
             }
             catch (Exception)
@@ -102,9 +102,9 @@ namespace Auction.Controllers
         {
             try
             {
-                var products = await productRepository.GetItemsByCategory(categoryId);
+                var products = await _productService.GetItemsByCategory(categoryId);
 
-                return Ok(_mapper.Map<IEnumerable<ProductDto>>(products));
+                return Ok(products);
 
             }
             catch (Exception)

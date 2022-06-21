@@ -1,24 +1,23 @@
-﻿using Auction.BLL.Repositories.Contracts;
-using Auction.DAL;
+﻿using Auction.DAL.Repositories.Contracts;
 using Auction.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ShopOnline.Api.Repositories
+namespace Auction.DAL.Repositories
 {
     public class ProductRepository : IProductRepository
     {
-        private readonly AuctionDbContext shopOnlineDbContext;
+        private readonly AuctionDbContext _auctionDbContext;
 
-        public ProductRepository(AuctionDbContext shopOnlineDbContext)
+        public ProductRepository(AuctionDbContext auctionDbContext)
         {
-            this.shopOnlineDbContext = shopOnlineDbContext;
+            _auctionDbContext = auctionDbContext;
         }
         public async Task<IEnumerable<ProductCategory>> GetCategories()
         {
-            var categories = await this.shopOnlineDbContext.ProductCategories.ToListAsync();
+            var categories = await _auctionDbContext.ProductCategories.ToListAsync();
            
             return categories; 
         
@@ -26,13 +25,13 @@ namespace ShopOnline.Api.Repositories
 
         public async Task<ProductCategory> GetCategory(int id)
         {
-            var category = await shopOnlineDbContext.ProductCategories.SingleOrDefaultAsync(c => c.Id == id);
+            var category = await _auctionDbContext.ProductCategories.SingleOrDefaultAsync(c => c.Id == id);
             return category;
         }
 
         public async Task<Product> GetItem(int id)
         {
-            var product = await shopOnlineDbContext.Products
+            var product = await _auctionDbContext.Products
                                 .Include(p => p.ProductCategory)
                                 .SingleOrDefaultAsync(p => p.Id == id);
             return product;
@@ -40,7 +39,7 @@ namespace ShopOnline.Api.Repositories
 
         public async Task<IEnumerable<Product>> GetItems()
         {
-            var products = await this.shopOnlineDbContext.Products
+            var products = await _auctionDbContext.Products
                                      .Include(p => p.ProductCategory).ToListAsync();
 
             return products;
@@ -49,10 +48,15 @@ namespace ShopOnline.Api.Repositories
 
         public async Task<IEnumerable<Product>> GetItemsByCategory(int id)
         {
-            var products = await this.shopOnlineDbContext.Products
+            var products = await _auctionDbContext.Products
                                      .Include(p => p.ProductCategory)
                                      .Where(p => p.CategoryId == id).ToListAsync();
             return products;
+        }
+
+        public async Task SaveAsync()
+        {
+            await _auctionDbContext.SaveChangesAsync();            
         }
     }
 }

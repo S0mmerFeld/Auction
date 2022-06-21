@@ -1,13 +1,12 @@
-﻿using Auction.BLL.DTO;
-using Auction.BLL.Repositories.Contracts;
-using Auction.DAL;
-using Auction.Models.Entities;
+﻿using Auction.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using Auction.DAL.Repositories.Contracts;
+using Auction.Models.DTO;
 
-namespace ShopOnline.Api.Repositories
+namespace Auction.DAL.Repositories
 {
     public class ShoppingCartRepository : IShoppingCartRepository
     {
@@ -105,6 +104,11 @@ namespace ShopOnline.Api.Repositories
             }
 
             return null;
+        }
+
+        public async Task SaveAsync()
+        {
+            await _auctionDbContext.SaveChangesAsync();
         }
     }
 }

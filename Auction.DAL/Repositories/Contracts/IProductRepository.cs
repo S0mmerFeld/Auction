@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Auction.BLL.Repositories.Contracts
+namespace Auction.DAL.Repositories.Contracts
 {
     public interface IProductRepository
     {
@@ -10,8 +10,8 @@ namespace Auction.BLL.Repositories.Contracts
         Task<IEnumerable<ProductCategory>> GetCategories();
         Task<Product> GetItem(int id);
         Task<ProductCategory> GetCategory(int id);
-
         Task<IEnumerable<Product>> GetItemsByCategory(int id);
+        Task SaveAsync();
 
     }
 }

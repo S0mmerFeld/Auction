@@ -1,4 +1,5 @@
 ﻿using Auction.BLL.DTO;
+using Auction.Models.DTO;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
