@@ -39,7 +39,8 @@ namespace Auction.BLL
         public async Task<ProductDto> GetItem(int id)
         {
             var product = await _productRepository.GetItem(id);
-            return _mapper.Map<ProductDto>(product);
+            var map = _mapper.Map<ProductDto>(product);
+            return map;
         }
 
         public async Task<IEnumerable<ProductDto>> GetItems()

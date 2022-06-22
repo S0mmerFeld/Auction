@@ -25,5 +25,17 @@ namespace Auction.Tests
              }
          };
         }
+
+        public static List<ProductCategoryDto> GetCategoryTodos()
+        {
+            return new List<ProductCategoryDto>{
+             new ProductCategoryDto{
+                 Id = 22,
+                 Name = "Red Nike Trainers",
+                 IconCSS = "123"                 
+             }
+         };
+        }
+
     }
 }

@@ -18,7 +18,6 @@ namespace Auction.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly IProductRepository productRepository;
         private readonly IProductService _productService;
         public ProductController(IProductService productService)
         {
@@ -52,7 +51,7 @@ namespace Auction.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<ProductDto>> GetItem(int id)
+        public async Task<IActionResult> GetItem(int id)
         {
             try
             {
@@ -79,7 +78,7 @@ namespace Auction.Controllers
 
         [HttpGet]
         [Route(nameof(GetProductCategories))]
-        public async Task<ActionResult<IEnumerable<ProductCategoryDto>>> GetProductCategories()
+        public async Task<IActionResult> GetProductCategories()
         {
             try
             {
@@ -98,7 +97,7 @@ namespace Auction.Controllers
 
         [HttpGet]
         [Route("{categoryId}/GetItemsByCategory")]
-        public async Task<ActionResult<IEnumerable<ProductDto>>> GetItemsByCategory(int categoryId)
+        public async Task<IActionResult> GetItemsByCategory(int categoryId)
         {
             try
             {
