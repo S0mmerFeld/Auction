@@ -37,5 +37,36 @@ namespace Auction.Tests
          };
         }
 
+
+        
+
+        public static List<CartItem> GetCartItemTodos()
+        {
+            return new List<CartItem>{
+             new CartItem{
+                Id = 22,
+                CartId = 22,
+                ProductId = 2,
+                Qty = 3                 
+             }
+         };
+        }
+
+        public static List<CartItemDto> GetCartItemDTOTodos()
+        {
+            return new List<CartItemDto>{
+             new CartItemDto{
+                Id = 22,
+                CartId = 22,
+                ProductId = 2,
+                Qty = 3,
+                Price = 3,
+                ProductDescription = "descr",
+                ProductImageURL = "URL",
+                ProductName = "name",
+                TotalPrice = 33                 
+             }
+         };
+        }
     }
 }

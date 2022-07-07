@@ -36,8 +36,10 @@ namespace AuctionUI.Pages
         {
             try
             {
-               // ShoppingCartItems = await ManageCartItemsLocalStorageService.GetCollection();
-              //  Product = await GetProductById(Id);
+                // ShoppingCartItems = await ManageCartItemsLocalStorageService.GetCollection();
+                //  Product = await GetProductById(Id);
+                Product = await ProductService.GetItem(Id);
+
             }
             catch (Exception ex)
             {

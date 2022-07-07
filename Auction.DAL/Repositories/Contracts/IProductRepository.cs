@@ -12,6 +12,8 @@ namespace Auction.DAL.Repositories.Contracts
         Task<ProductCategory> GetCategory(int id);
         Task<IEnumerable<Product>> GetItemsByCategory(int id);
         Task SaveAsync();
+        Task<Product> AddItem(Product product);
+        Task<Product> DeleteItem(int id);
 
     }
 }

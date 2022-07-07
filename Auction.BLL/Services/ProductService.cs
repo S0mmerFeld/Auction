@@ -22,6 +22,8 @@ namespace Auction.BLL
             _mapper = mapper;
         }
 
+        //TO DO ADD GOODS
+
         public async Task<IEnumerable<ProductCategoryDto>> GetCategories()
         {
             var productCategories = await _productRepository.GetCategories();
@@ -54,6 +56,20 @@ namespace Auction.BLL
         {
             var products = await _productRepository.GetItemsByCategory(id);
             return _mapper.Map<IEnumerable<ProductDto>>(products);
+        }
+
+        public async Task<Product> AddItem(Product product)
+        {
+            var result = await _productRepository.AddItem(product);
+            return result;
+        }
+
+        // DEBUG!
+        public async Task<Product> DeleteItem(int id)
+        {
+            var item = await _productRepository.DeleteItem(id);
+            return item;
+
         }
     }
 }

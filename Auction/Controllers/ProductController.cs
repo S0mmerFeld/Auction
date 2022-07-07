@@ -25,7 +25,7 @@ namespace Auction.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult>  GetItems()
+        public async Task<IActionResult> GetItems()
         {
             try
             {
@@ -37,7 +37,7 @@ namespace Auction.Controllers
                     return NotFound(products);
                 }
                 else
-                {        
+                {
                     return Ok(products);
                 }
 
@@ -63,8 +63,11 @@ namespace Auction.Controllers
                 }
                 else
                 {
+                    var productCategory = await _productService.GetCategory(product.CategoryId);
 
-                    return Ok(product);
+                    var productDto = product.ConvertToDto(productCategory);
+
+                    return Ok(productDto);
                 }
 
             }
@@ -113,5 +116,61 @@ namespace Auction.Controllers
             }
         }
 
+
+        [HttpPost]
+        public async Task<ActionResult<Product>> PostItem([FromBody] Product product)
+        {
+            try
+            {
+                var newProductItem = await this._productService.AddItem(product);
+
+                if (newProductItem == null)
+                {
+                    return NoContent();
+                }
+
+                var productread = await _productService.GetItem(newProductItem.Id);
+
+                if (product == null)
+                {
+                    throw new Exception($"Something went wrong when attempting to retrieve product (productId:({product.Id})");
+                }
+
+
+
+                return CreatedAtAction(nameof(GetItem), new { id = product.Id }, product);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult<Product>> DeleteItem(int id)
+        {
+            try
+            {
+                var product = await this._productService.DeleteItem(id);
+
+                if (product == null)
+                {
+                    return NotFound();
+                }
+
+                var productread = await _productService.GetItem(product.Id);
+
+                if (productread == null)
+                    return NotFound();
+
+                return Ok();
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+
+        }
     }
 }

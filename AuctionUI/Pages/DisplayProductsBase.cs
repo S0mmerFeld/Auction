@@ -9,6 +9,15 @@ namespace AuctionUI.Pages
     {
         [Parameter]
         public IEnumerable<ProductDto> Products { get; set; }
-    
+
+        public int currentCount = 0;
+        public void IncrementCount()
+        {
+            currentCount++;
+        }
+        public void DecrementCount()
+        {
+            currentCount--;
+        }
     }
 }

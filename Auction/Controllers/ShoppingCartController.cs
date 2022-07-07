@@ -1,4 +1,6 @@
-﻿using Auction.DAL.Repositories.Contracts;
+﻿using Auction.BLL;
+using Auction.BLL.Interfaces;
+using Auction.DAL.Repositories.Contracts;
 using Auction.Models.DTO;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -13,39 +15,30 @@ namespace Auction.Controllers
     [ApiController]
     public class ShoppingCartController : ControllerBase
     {
-        private readonly IShoppingCartRepository shoppingCartRepository;
-        private readonly IProductRepository productRepository;
+        private readonly IShoppingCartService _shoppingCartService;
+        private readonly IProductService _productService;
 
-        public ShoppingCartController(IShoppingCartRepository shoppingCartRepository,
-                                      IProductRepository productRepository)
+        public ShoppingCartController(IShoppingCartService shoppingCartService,
+                                      IProductService productService)
         {
-            this.shoppingCartRepository = shoppingCartRepository;
-            this.productRepository = productRepository;
+            _shoppingCartService = shoppingCartService;
+            _productService = productService;
         }
 
         [HttpGet]
         [Route("{userId}/GetItems")]
-        public async Task<ActionResult<IEnumerable<CartItemDto>>> GetItems(int userId)
+        public async Task<IActionResult> GetItems(int userId)
         {
             try
             {
-                var cartItems = await this.shoppingCartRepository.GetItems(userId);
+                var cartItems = await _shoppingCartService.GetItems(userId);
 
                 if (cartItems == null)
                 {
                     return NoContent();
-                }
+                }                
 
-                var products = await this.productRepository.GetItems();
-
-                if (products == null)
-                {
-                    throw new Exception("No products exist in the system");
-                }
-
-                var cartItemsDto = cartItems.ConvertToDto(products);
-
-                return Ok(cartItemsDto);
+                return Ok(cartItems);
 
             }
             catch (Exception ex)
@@ -56,24 +49,17 @@ namespace Auction.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<CartItemDto>> GetItem(int id)
+        public async Task<IActionResult> GetItem(int id)
         {
             try
             {
-                var cartItem = await this.shoppingCartRepository.GetItem(id);
+                var cartItem = await _shoppingCartService.GetItem(id);
                 if (cartItem == null)
                 {
                     return NotFound();
                 }
-                var product = await productRepository.GetItem(cartItem.ProductId);
 
-                if (product == null)
-                {
-                    return NotFound();
-                }
-                var cartItemDto = cartItem.ConvertToDto(product);
-
-                return Ok(cartItemDto);
+                return Ok(cartItem);
             }
             catch (Exception ex)
             {
@@ -86,24 +72,23 @@ namespace Auction.Controllers
         {
             try
             {
-                var newCartItem = await this.shoppingCartRepository.AddItem(cartItemToAddDto);
+                var newCartItem = await this._shoppingCartService.AddItem(cartItemToAddDto);
 
                 if (newCartItem == null)
                 {
                     return NoContent();
                 }
 
-                var product = await productRepository.GetItem(newCartItem.ProductId);
+                var product = await _productService.GetItem(newCartItem.ProductId);
 
                 if (product == null)
                 {
                     throw new Exception($"Something went wrong when attempting to retrieve product (productId:({cartItemToAddDto.ProductId})");
                 }
 
-                var newCartItemDto = newCartItem.ConvertToDto(product);
+                
 
-                return CreatedAtAction(nameof(GetItem), new { id = newCartItemDto.Id }, newCartItemDto);
-
+                return CreatedAtAction(nameof(GetItem), new { id = product.Id }, product);
 
             }
             catch (Exception ex)
@@ -117,44 +102,19 @@ namespace Auction.Controllers
         {
             try
             {
-                var cartItem = await this.shoppingCartRepository.DeleteItem(id);
+                var cartItem = await this._shoppingCartService.DeleteItem(id);
 
                 if (cartItem == null)
                 {
                     return NotFound();
                 }
 
-                var product = await this.productRepository.GetItem(cartItem.ProductId);
+                var product = await this._productService.GetItem(cartItem.ProductId);
 
                 if (product == null)
                     return NotFound();
-
-                var cartItemDto = cartItem.ConvertToDto(product);
-
-                return Ok(cartItemDto);
-
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
-        }
-        [HttpPatch("{id:int}")]
-        public async Task<ActionResult<CartItemDto>> UpdateQty(int id, CartItemQtyUpdateDto cartItemQtyUpdateDto)
-        {
-            try
-            {
-                var cartItem = await this.shoppingCartRepository.UpdateQty(id, cartItemQtyUpdateDto);
-                if (cartItem == null)
-                {
-                    return NotFound();
-                }
-
-                var product = await productRepository.GetItem(cartItem.ProductId);
-
-                var cartItemDto = cartItem.ConvertToDto(product);
-
-                return Ok(cartItemDto);
+               
+                return Ok();
 
             }
             catch (Exception ex)
@@ -163,6 +123,33 @@ namespace Auction.Controllers
             }
 
         }
+
+
+        //TODO patch and post check return and update
+        //[HttpPatch("{id:int}")]
+        //public async Task<ActionResult<CartItemDto>> UpdateQty(int id, CartItemQtyUpdateDto cartItemQtyUpdateDto)
+        //{
+        //    try
+        //    {
+        //        var cartItem = await this._shoppingCartService.UpdateQty(id, cartItemQtyUpdateDto);
+        //        if (cartItem == null)
+        //        {
+        //            return NotFound();
+        //        }
+
+        //        var product = await _productService.GetItem(cartItem.ProductId);
+
+        //        var cartItemDto = cartItem.ConvertToDto(product);
+
+        //        return Ok(cartItemDto);
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        //    }
+
+        //}
 
     }
 }

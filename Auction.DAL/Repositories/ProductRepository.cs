@@ -1,4 +1,5 @@
 ﻿using Auction.DAL.Repositories.Contracts;
+using Auction.Models.DTO;
 using Auction.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -57,6 +58,34 @@ namespace Auction.DAL.Repositories
         public async Task SaveAsync()
         {
             await _auctionDbContext.SaveChangesAsync();            
+        }
+
+
+
+        public async Task<Product> AddItem(Product product)
+        {
+            if (product != null)
+            {
+                var result = await _auctionDbContext.Products.AddAsync(product);
+                await SaveAsync();
+                return result.Entity;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<Product> DeleteItem(int id)
+        {
+            var item = await _auctionDbContext.Products.FindAsync(id);
+
+            if (item != null)
+            {
+                _auctionDbContext.Products.Remove(item);
+                await _auctionDbContext.SaveChangesAsync();
+            }
+            return item;
         }
     }
 }

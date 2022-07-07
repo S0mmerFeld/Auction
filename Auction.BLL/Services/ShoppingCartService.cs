@@ -4,6 +4,7 @@ using Auction.DAL.Repositories.Contracts;
 using Auction.Models;
 using Auction.Models.DTO;
 using Auction.Models.Entities;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -15,10 +16,14 @@ namespace Auction.BLL
     public class ShoppingCartService : IShoppingCartService
     {
         private readonly IShoppingCartRepository _shoppingCartRepository;
+        private readonly IProductRepository _productRepository;
+        private readonly IMapper _mapper;
 
-        public ShoppingCartService(IShoppingCartRepository shoppingCartRepository)
+        public ShoppingCartService(IShoppingCartRepository shoppingCartRepository, IMapper mapper, IProductRepository productRepository)
         {
+            _productRepository = productRepository;
             _shoppingCartRepository = shoppingCartRepository;
+            _mapper = mapper;
         }
         public async Task<CartItem> AddItem(CartItemToAddDto cartItemToAddDto)
         {
@@ -40,9 +45,13 @@ namespace Auction.BLL
             return await _shoppingCartRepository.GetItem(id);
         }
 
-        public async Task<IEnumerable<CartItem>> GetItems(int userId)
+        public async Task<IEnumerable<CartItemDto>> GetItems(int userId)
         {
-            return await _shoppingCartRepository.GetItems(userId);
+            var products = await _productRepository.GetItems();
+            var carts = await _shoppingCartRepository.GetItems(userId);
+
+            var DestinationDto = _mapper.Map(carts, _mapper.Map<IEnumerable<Product>, IEnumerable<CartItemDto>>(products));
+            return DestinationDto;
         }
 
         public async Task<CartItem> UpdateQty(int id, CartItemQtyUpdateDto cartItemQtyUpdateDto)

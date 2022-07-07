@@ -21,6 +21,7 @@ using Auction.BLL.DTO.Mappers;
 using AutoMapper;
 using Auction.DAL.Repositories.Contracts;
 using Auction.DAL.Repositories;
+using Auction.BLL.Interfaces;
 
 namespace Auction
 {
@@ -64,7 +65,7 @@ namespace Auction
             services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
 
             services.AddScoped<IProductService, ProductService>();
-
+            services.AddScoped<IShoppingCartService, ShoppingCartService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

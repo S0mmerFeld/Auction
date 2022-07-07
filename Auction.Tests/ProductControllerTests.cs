@@ -93,13 +93,13 @@ namespace Auction.Tests
             var testservice = new Mock<IProductService>();
 
             testservice
-                .Setup(op => op.GetItems())
-                .ReturnsAsync(TodoMockData.GetTodos());
+                .Setup(op => op.GetItem(id))
+                .ReturnsAsync(TodoMockData.GetTodos().FirstOrDefault(p=>p.Id==id));
 
             var sut = new ProductController(testservice.Object);
 
             //actual
-            var result = (ObjectResult)await sut.GetItem(id);
+            var result = (ObjectResult) await sut.GetItem(id);
 
             //assert
             result.StatusCode.ShouldBe(200);

@@ -35,14 +35,14 @@ namespace Auction.BLL.DTO.Mappers
              .ForMember(dest => dest.Id, act => act.MapFrom(src => src.Id))
              .ForMember(dest => dest.ProductId, act => act.MapFrom(src => src.ProductId))
              .ForMember(dest => dest.CartId, act => act.MapFrom(src => src.CartId))
-             .ForMember(dest => dest.Qty, act => act.MapFrom(src => src.Qty));             
+             .ForMember(dest => dest.Qty, act => act.MapFrom(src => src.Qty)).ReverseMap();
 
             CreateMap<Product, CartItemDto>()             
              .ForMember(dest => dest.ProductName, act => act.MapFrom(src => src.Name))
              .ForMember(dest => dest.ProductDescription, act => act.MapFrom(src => src.Description))
              .ForMember(dest => dest.ProductImageURL, act => act.MapFrom(src => src.ImageURL))
              .ForMember(dest => dest.Price, act => act.MapFrom(src => src.Price))            
-             .ForMember(dest => dest.TotalPrice, act => act.MapFrom(src => src.Qty * src.Price));
+             .ForMember(dest => dest.TotalPrice, act => act.MapFrom(src => src.Qty * src.Price)).ReverseMap();
         }
     }
 }

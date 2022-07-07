@@ -14,5 +14,7 @@ namespace Auction.BLL
         Task<ProductDto> GetItem(int id);
         Task<ProductCategoryDto> GetCategory(int id);
         Task<IEnumerable<ProductDto>> GetItemsByCategory(int id);
+        Task<Product> AddItem(Product product);
+        Task<Product> DeleteItem(int id);
     }
 }
