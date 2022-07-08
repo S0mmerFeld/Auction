@@ -30,12 +30,10 @@ namespace AuctionUI.Pages
         {
             try
             {
-            //    ShoppingCartItems = await ManageCartItemsLocalStorageService.GetCollection();
-            //    CartChanged();
+                ShoppingCartItems = await ShoppingCartService.GetItems(HardCoded.UserId);
             }
             catch (Exception ex)
             {
-
                 ErrorMessage = ex.Message;
             }
         }

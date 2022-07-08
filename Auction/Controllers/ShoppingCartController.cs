@@ -36,9 +36,18 @@ namespace Auction.Controllers
                 if (cartItems == null)
                 {
                     return NoContent();
-                }                
+                }
 
-                return Ok(cartItems);
+                var products = await _productService.GetItems();
+                if(products == null)
+                {
+                    throw new Exception("No products exist in the system");
+                }
+
+                var cartItemsDto = cartItems.ConvertToDto(products);
+
+
+                return Ok(cartItemsDto);
 
             }
             catch (Exception ex)
@@ -59,7 +68,14 @@ namespace Auction.Controllers
                     return NotFound();
                 }
 
-                return Ok(cartItem);
+                var product = await _productService.GetItem(cartItem.ProductId);
+                if(product == null)
+                {
+                    return NotFound();
+                }
+
+                var cartItemDto = cartItem.ConvertToDto(product);
+                return Ok(cartItemDto);
             }
             catch (Exception ex)
             {
@@ -86,9 +102,9 @@ namespace Auction.Controllers
                     throw new Exception($"Something went wrong when attempting to retrieve product (productId:({cartItemToAddDto.ProductId})");
                 }
 
-                
+                var newCartItemDto = newCartItem.ConvertToDto(product);
 
-                return CreatedAtAction(nameof(GetItem), new { id = product.Id }, product);
+                return CreatedAtAction(nameof(GetItem), new { id = newCartItemDto.Id }, newCartItemDto);
 
             }
             catch (Exception ex)

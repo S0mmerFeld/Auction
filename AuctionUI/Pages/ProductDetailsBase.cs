@@ -1,5 +1,4 @@
-﻿
-using Auction.BLL.DTO;
+﻿using Auction.BLL.DTO;
 using Auction.Models.DTO;
 using AuctionUI.Services.Contracts;
 using Microsoft.AspNetCore.Components;
@@ -51,14 +50,7 @@ namespace AuctionUI.Pages
         {
             try
             {
-               var cartItemDto = await ShoppingCartService.AddItem(cartItemToAddDto);
-
-                if (cartItemDto != null)
-                {
-                    ShoppingCartItems.Add(cartItemDto);
-                   // await ManageCartItemsLocalStorageService.SaveCollection(ShoppingCartItems);
-                }
-
+               var cartItemDto = await ShoppingCartService.AddItem(cartItemToAddDto);  
                NavigationManager.NavigateTo("/ShoppingCart");
             }
             catch (Exception)
