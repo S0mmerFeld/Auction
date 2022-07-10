@@ -26,8 +26,8 @@ namespace AuctionUI.Services.Contracts
         {
             try
             {
-                var response = await httpClient.PostAsJsonAsync<CartItemToAddDto>("api/ShoppingCart",cartItemToAddDto);
-
+                //var response = await httpClient.PostAsJsonAsync<CartItemToAddDto>("api/ShoppingCart", cartItemToAddDto);
+                var response = await httpClient.PostAsJsonAsync<CartItemToAddDto>("api/ShoppingCart", cartItemToAddDto);
                 if (response.IsSuccessStatusCode)
                 {
                     if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
@@ -45,9 +45,9 @@ namespace AuctionUI.Services.Contracts
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                var es = ex;
                 throw;
             }
         }

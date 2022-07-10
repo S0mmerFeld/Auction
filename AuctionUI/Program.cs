@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Http.Json;
 
 namespace AuctionUI
 {
@@ -20,10 +21,13 @@ namespace AuctionUI
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:5001/") });
 
-            builder.Services.AddScoped<IProductService, ProductService>();
+
+            builder.Services.AddHttpClient();
+
+;           builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
 
-           
+
 
 
             builder.Services.AddMsalAuthentication(options =>

@@ -44,7 +44,7 @@ namespace Auction
             //Enable CORS
             services.AddCors(c =>
             {
-                c.AddPolicy("AllowOrigin", options => options.WithOrigins("http://localhost:6001","https://localhost:6001"));
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().WithMethods("GET, PATCH, DELETE, PUT, POST, OPTIONS"));
             });
 
 
@@ -72,6 +72,9 @@ namespace Auction
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Auction", Version = "v1" });
             });
+
+           
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -90,6 +93,12 @@ namespace Auction
             app.UseCors(policy =>
                 policy.WithOrigins("http://localhost:6001", "https://localhost:6001")
             );
+
+            app.UseCors(x => x
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+               .SetIsOriginAllowed(origin => true) // allow any origin  
+               .AllowCredentials());               // allow credentials 
 
             app.UseRouting();
 

@@ -88,7 +88,7 @@ namespace Auction.Controllers
         {
             try
             {
-                var newCartItem = await this._shoppingCartService.AddItem(cartItemToAddDto);
+                var newCartItem = await _shoppingCartService.AddItem(cartItemToAddDto);
 
                 if (newCartItem == null)
                 {
