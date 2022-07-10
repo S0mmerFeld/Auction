@@ -129,8 +129,9 @@ namespace Auction.Controllers
 
                 if (product == null)
                     return NotFound();
-               
-                return Ok();
+
+                var cartItemDto = cartItem.ConvertToDto(product);
+                return Ok(cartItemDto);
 
             }
             catch (Exception ex)

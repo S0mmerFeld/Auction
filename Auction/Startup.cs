@@ -22,6 +22,7 @@ using AutoMapper;
 using Auction.DAL.Repositories.Contracts;
 using Auction.DAL.Repositories;
 using Auction.BLL.Interfaces;
+using Microsoft.Net.Http.Headers;
 
 namespace Auction
 {
@@ -90,15 +91,11 @@ namespace Auction
             app.UseHttpsRedirection();
             app.UseCors("CorsPolicy");
 
-            app.UseCors(policy =>
-                policy.WithOrigins("http://localhost:6001", "https://localhost:6001")
-            );
-
-            app.UseCors(x => x
-               .AllowAnyMethod()
-               .AllowAnyHeader()
-               .SetIsOriginAllowed(origin => true) // allow any origin  
-               .AllowCredentials());               // allow credentials 
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 
