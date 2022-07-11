@@ -142,31 +142,31 @@ namespace Auction.Controllers
         }
 
 
-        //TODO patch and post check return and update
-        //[HttpPatch("{id:int}")]
-        //public async Task<ActionResult<CartItemDto>> UpdateQty(int id, CartItemQtyUpdateDto cartItemQtyUpdateDto)
-        //{
-        //    try
-        //    {
-        //        var cartItem = await this._shoppingCartService.UpdateQty(id, cartItemQtyUpdateDto);
-        //        if (cartItem == null)
-        //        {
-        //            return NotFound();
-        //        }
 
-        //        var product = await _productService.GetItem(cartItem.ProductId);
+        [HttpPatch("id:int")]
+        public async Task<ActionResult<CartItemDto>> UpdateQty(int id, CartItemQtyUpdateDto cartItemQtyUpdateDto)
+        {
+            try
+            {
+                var cartItem = await this._shoppingCartService.UpdateQty(id, cartItemQtyUpdateDto);
+                if (cartItem == null)
+                {
+                    return NotFound();
+                }
 
-        //        var cartItemDto = cartItem.ConvertToDto(product);
+                var product = await _productService.GetItem(cartItem.ProductId);
 
-        //        return Ok(cartItemDto);
+                var cartItemDto = cartItem.ConvertToDto(product);
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-        //    }
+                return Ok(cartItemDto);
 
-        //}
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+
+        }
 
     }
 }

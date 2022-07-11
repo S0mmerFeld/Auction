@@ -31,6 +31,7 @@ namespace AuctionUI.Pages
             try
             {
                 ShoppingCartItems = await ShoppingCartService.GetItems(HardCoded.UserId);
+                CartChanged();
             }
             catch (Exception ex)
             {
@@ -90,7 +91,7 @@ namespace AuctionUI.Pages
         }
 
         protected async Task UpdateQty_Input(int id)
-        {
+        {    
            await MakeUpdateQtyButtonVisible(id, true);
         }
 

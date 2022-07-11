@@ -12,10 +12,14 @@ namespace AuctionUI.Pages
     public class ProductsBase:ComponentBase
     {
         [Inject]
-        public IProductService ProductService { get; set; }      
+        public IProductService ProductService { get; set; }
+
+        [Inject]
+        public IShoppingCartService ShoppingCartService { get; set; }
 
 
         public IEnumerable<ProductDto> Products { get; set; }
+        public string ErrorMessage { get; set; }
 
         public string name = "Oleg";
         public string DisplayTime()
@@ -26,8 +30,20 @@ namespace AuctionUI.Pages
 
         protected override async Task OnInitializedAsync()
         {
-              //  await ClearLocalStorage();
-                Products =  await ProductService.GetItems();
+            try
+            {
+                Products = await ProductService.GetItems();
+
+                var shoppingCartItems = await ShoppingCartService.GetItems(HardCoded.UserId);
+                var totalQty = shoppingCartItems.Sum(i => i.Qty);
+
+                ShoppingCartService.RaiseEventOnShoppingCartChanged(totalQty);
+            }
+            catch(Exception ex)
+            {
+                ErrorMessage = ex.Message;
+            }
+
                                  
         }
         protected IOrderedEnumerable<IGrouping<int, ProductDto>> GetGroupedProductsByCategory()
