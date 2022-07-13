@@ -33,9 +33,9 @@ namespace AuctionUI.Pages
         {
             try
             {
-               // ShoppingCartItems = await ManageCartItemsLocalStorageService.GetCollection();
+                ShoppingCartItems = await ShoppingCartService.GetItems(HardCoded.UserId);
 
-                if (ShoppingCartItems != null && ShoppingCartItems.Count() > 0)
+                if (ShoppingCartItems != null)
                 {
                     Guid orderGuid = Guid.NewGuid();
 
