@@ -19,9 +19,8 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
-    <script src="js/ShoppingCartFunctions.js"></script>
+
     <script src="_content/Microsoft.Authentication.WebAssembly.Msal/AuthenticationService.js"></script>
-    <script src="_framework/blazor.webassembly.js"></script>
 
 
 
@@ -35,7 +34,6 @@
             purchase_units[0] = {};
             purchase_units[0].amount = {};
 
-
             paypal.Buttons({
                 style: {
                     color: 'gold',
@@ -45,11 +43,11 @@
 
                 },
 
-
                 createOrder: function (data, actions) {
 
                     purchase_units[0].description = description.value;
                     purchase_units[0].amount.value = amount.value;
+
                     return actions.order.create({
                         purchase_units: purchase_units,
                     });
@@ -76,8 +74,10 @@
                 }
             }).render('#paypal-button-container');
         }
-
     </script>
+
+    <script src="_framework/blazor.webassembly.js"></script>
+    <script src="js/ShoppingCartFunctions.js"></script>
 </body>
 
 </html>

@@ -143,7 +143,7 @@ namespace Auction.Controllers
 
 
 
-        [HttpPatch("id:int")]
+        [HttpPatch("{id:int}")]
         public async Task<ActionResult<CartItemDto>> UpdateQty(int id, CartItemQtyUpdateDto cartItemQtyUpdateDto)
         {
             try
